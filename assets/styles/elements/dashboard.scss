@@ -1,0 +1,86 @@
+// *** SCSS Variablen: Farben & Abstände ***
+$primary-color: #3498db;         // Prim\u00e4rfarbe (z.B. Blau f\u00fcr Icons oder Akzente)
+$dashboard-background-color: #cfcece;
+$dashboard-border-color: #989797;
+$dashboard-border-radius: 1rem;
+$card-bg: #fff;                  // Hintergrundfarbe der Karten (Wei\u00df)
+$card-text-color: #333;          // Textfarbe in den Karten
+$card-border-radius: 0.5rem;     // Abgerundete Ecken der Karten
+$card-padding: 1rem;             // Innenabstand (Padding) der Karten
+$card-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);    // Standard-Schatten der Karte
+$card-shadow-hover: 0 4px 10px rgba(0, 0, 0, 0.15); // Schatten bei Hover (etwas gr\u00f6\u00dfer)
+
+// Breakpoints f\u00fcr Responsive Design (k\u00f6nnen projektspezifisch angepasst werden)
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// *** Dashboard-Container Layout ***
+.dashboard {
+  display: grid;
+  grid-gap: $card-padding;           // Abstand (Gutter) zwischen den Kacheln
+  grid-template-columns: 1fr;        // Standard: eine Spalte (Mobile)
+  background-color: $dashboard-background-color;
+  border: 0.2rem $dashboard-border-color solid;
+  border-radius: $dashboard-border-radius;
+  padding: 0.8rem 0.8rem 0.8rem 0.8rem;
+
+
+  @media (min-width: $breakpoint-md) {
+    grid-template-columns: 1fr 1fr;  // Ab Tablet-Gr\u00f6\u00dfe: zwei Spalten
+  }
+  @media (min-width: $breakpoint-lg) {
+    grid-template-columns: 1fr 1fr 1fr;  // Ab kleinem Desktop: drei Spalten
+  }
+  @media (min-width: $breakpoint-xl) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;  // Ab gro\u00dfen Desktops: vier Spalten
+  }
+}
+
+// *** Karten-Design ***
+.card {
+  background: $card-bg;
+  color: $card-text-color;
+  padding: $card-padding;
+  border-radius: $card-border-radius;
+  box-shadow: $card-shadow;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  // Hover-Effekt: leichtes Anheben und st\u00e4rkerer Schatten
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $card-shadow-hover;
+  }
+
+  // (Optional) Ganze Karte klickbar machen, falls als Link genutzt:
+  // cursor: pointer;
+
+  // ** Karten-Header (Titel & optionales Icon) **
+  .card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    i {
+      font-size: 1.2rem;
+      color: $primary-color;
+      margin-right: 0.5rem;   // Abstand zwischen Icon und Titel
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin: 0;             // Kein zus\u00e4tzlicher Rand um \u00dcberschrift
+    }
+  }
+
+  // ** Karten-Inhalt (Body) **
+  .card-body {
+    .card-value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0 0 0.5rem 0;  // unten etwas Abstand, falls weiterer Text folgt
+    }
+    // Zus\u00e4tzlicher Inhalt (z.B. Beschreibungstext oder Link) k\u00f6nnte hier gestylt werden.
+  }
+}

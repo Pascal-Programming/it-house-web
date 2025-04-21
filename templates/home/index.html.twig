@@ -1,0 +1,324 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<header class="site-header">
+    <div class="header-left">
+        <img src="/images/logo.svg" alt="Logo" class="logo">
+    </div>
+    <nav class="header-right">
+        <ul class="nav-links">
+            <li><a href="#">Startseite</a></li>
+
+            <li class="dropdown">
+                <a href="#">Dienste</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Hosting</a></li>
+                    <li><a href="#">Domains</a></li>
+                    <li><a href="#">E-Mail</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="#">Über uns</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Karriere</a></li>
+                </ul>
+            </li>
+
+            <li><a href="#">Kontakt</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<div>
+        <h1>Content</h1>
+        <div>
+            <p>Lorem ipsum dolorem sont ahmet ....</p>
+        </div>
+
+        {# Beispielhafte Daten für die Karten (würde üblicherweise im Controller erstellt) #}
+        {% set cards = [
+        {'title': 'Benutzer', 'icon': 'fas fa-users', 'value': '1.234'},      # fas/fa-Klassen für FontAwesome Icons
+        {'title': 'Umsatz', 'icon': 'fas fa-chart-line', 'value': '€ 12.345'},
+        {'title': 'Server-Auslastung', 'icon': 'fas fa-server', 'value': '75%'},
+        {'title': 'Neue Nachrichten', 'icon': 'fas fa-envelope', 'value': '5'}
+        ] %}
+
+        <div class="dashboard">
+            {% for card in cards %}
+            <div class="card">
+                <div class="card-header">
+                    {% if card.icon %}
+                    <i class="{{ card.icon }}"></i>
+                    {% endif %}
+                    <h3>{{ card.title }}</h3>
+                </div>
+                <div class="card-body">
+                    {% if card.value %}
+                    <p class="card-value">{{ card.value }}</p>
+                    {% endif %}
+                    {# Hier k\u00f6nnten weitere Inhalte folgen, z.B. ein kleines Chart oder Link #}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+    {% set rooms = [
+        {'name': 'Büro EG', 'light': true,  'temp': '22°C', 'status': 'Aktiv'},
+        {'name': 'Besprechung 1', 'light': false, 'temp': '20°C', 'status': 'Offline'},
+        {'name': 'Serverraum', 'light': true, 'temp': '18°C', 'status': 'Warnung'},
+        {'name': 'Lager', 'light': false, 'temp': '16°C', 'status': 'Aktiv'}
+    ] %}
+
+    <section class="room-list">
+        <h2>Räume</h2>
+        <div class="room-list-table">
+            <div class="room-list-header">
+                <span>Raum</span>
+                <span>Licht</span>
+                <span>Temperatur</span>
+                <span>Status</span>
+                <span>Details</span>
+            </div>
+
+            {% for room in rooms %}
+            <div class="room-list-row">
+                <span>{{ room.name }}</span>
+                <span class="light {{ room.light ? 'on' : 'off' }}">
+          {{ room.light ? 'An' : 'Aus' }}
+        </span>
+                <span>{{ room.temp }}</span>
+                <span class="status status-{{ room.status|lower }}">
+          {{ room.status }}
+        </span>
+                <span><a href="#" class="details-link">Details</a></span>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    {% set notes = [
+        {
+            'id': 1,
+            'title': 'Wartung geplant',
+            'content': 'Am 25. April wird das System zwischen 02:00 und 04:00 Uhr gewartet.',
+        },
+        {
+            'id': 2,
+            'title': 'Neue Features',
+            'content': 'Das neue Dashboard unterstützt jetzt flexible Filter, Suchfunktionen und Schnellzugriffe.'
+        },
+        {
+            'id': 3,
+            'title': 'Sicherheits-Hinweis',
+            'content': 'Bitte ändere dein Passwort regelmäßig und verwende einen Passwortmanager.'
+        }
+    ] %}
+
+    <section class="blackboard">
+        <h2>Blackboard</h2>
+        <div class="blackboard-cards">
+            {% for note in notes %}
+            <div class="blackboard-card">
+                <h3>{{ note.title }}</h3>
+                <p>{{ note.content }}</p>
+
+                <div class="blackboard-comment">
+                    <form method="post" action="/blackboard/comment/{{ note.id }}">
+                        <textarea name="comment" placeholder="Kommentar zu '{{ note.title }}' …" rows="3" required></textarea>
+                        <button type="submit">Senden</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+
+    {% set lists = [
+        {
+            'id': 'einkaufsliste1',
+            'name': 'Wocheneinkauf',
+            'items': [
+            {'name': 'Milch', 'menge': '2L', 'prio': 'hoch'},
+            {'name': 'Brot', 'menge': '1x', 'prio': 'mittel'}
+        ]
+        },
+        {
+            'id': 'einkaufsliste2',
+            'name': 'Gartenbedarf',
+            'items': [
+            {'name': 'Blumenerde', 'menge': '20L', 'prio': 'niedrig'}
+        ]
+        }
+    ] %}
+
+    <div class="shopping-tabs">
+        <ul class="tab-header">
+            {% for list in lists %}
+            <li><a href="#{{ list.id }}">{{ list.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <div class="tab-contents">
+            {% for list in lists %}
+            <div id="{{ list.id }}" class="tab-content">
+                <h3>{{ list.name }}</h3>
+
+                <table class="shopping-table">
+                    <thead>
+                    <tr>
+                        <th>Artikel</th>
+                        <th>Menge</th>
+                        <th>Priorität</th>
+                        <th>Aktionen</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in list.items %}
+                    <tr>
+                        <td><input type="text" value="{{ item.name }}" /></td>
+                        <td><input type="text" value="{{ item.menge }}" /></td>
+                        <td>
+                            <select>
+                                <option value="niedrig" {% if item.prio == 'niedrig' %}selected{% endif %}>niedrig</option>
+                                <option value="mittel" {% if item.prio == 'mittel' %}selected{% endif %}>mittel</option>
+                                <option value="hoch" {% if item.prio == 'hoch' %}selected{% endif %}>hoch</option>
+                            </select>
+                        </td>
+                        <td><button class="delete-item">Löschen</button></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <button class="add-item">Neuer Artikel</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <p>Lorem Ipsum</p>
+
+
+
+    {% set users = ['Max', 'Lena', 'Jonas', 'Emma'] %}
+
+    <section class="user-message">
+        <h2>Nachricht senden</h2>
+        <form method="post" action="/message/send">
+            <label>Empfänger:
+                <select name="receiver" required>
+                    <option value="">Bitte wählen</option>
+                    {% for user in users %}
+                    <option value="{{ user }}">{{ user }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>Titel:
+                <input type="text" name="title" required />
+            </label>
+
+            <label>Nachricht:
+                <textarea name="message" rows="4" required></textarea>
+            </label>
+
+            <label>Priorität:
+                <select name="priority">
+                    <option value="niedrig">niedrig</option>
+                    <option value="mittel">mittel</option>
+                    <option value="hoch">hoch</option>
+                </select>
+            </label>
+
+            <label>Gelesen:
+                <input type="checkbox" name="read" disabled />
+            </label>
+
+            <button type="submit">Senden</button>
+        </form>
+    </section>
+
+    <hr />
+
+    <section class="user-inbox">
+        <h2>Empfangene Nachrichten</h2>
+
+        {% set messages = [
+            {
+                'from': 'Max',
+                'title': 'Meeting Reminder',
+                'message': 'Nicht vergessen: Meeting heute um 15:00 Uhr.',
+                'priority': 'hoch',
+                'read': false
+            },
+            {
+                'from': 'Emma',
+                'title': 'Frage zum Projekt',
+                'message': 'Wie ist der Stand bei Modul X?',
+                'priority': 'mittel',
+                'read': true
+            }
+        ] %}
+
+        <div class="inbox-messages">
+            {% for msg in messages %}
+            <div class="inbox-message">
+                <h4>{{ msg.title }} <small>(von {{ msg.from }})</small></h4>
+                <p>{{ msg.message }}</p>
+                <p><strong>Priorität:</strong> {{ msg.priority }}</p>
+                <label>
+                    Gelesen:
+                    <input type="checkbox" {% if msg.read %}checked{% endif %} />
+                </label>
+                <p><a href="/message/reply/{{ msg.from }}?title=Re: {{ msg.title }}" target="_blank">Antworten</a></p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <hr />
+
+    <section class="user-sent">
+        <h2>Gesendete Nachrichten</h2>
+
+        {% set sentMessages = [
+            {
+                'to': 'Lena',
+                'title': 'Onboarding',
+                'message': 'Bitte beachte das neue Onboarding-Dokument.',
+                'priority': 'mittel',
+                'read': true
+            },
+            {
+                'to': 'Jonas',
+                'title': 'Projektstatus',
+                'message': 'Der aktuelle Stand ist dokumentiert.',
+                'priority': 'niedrig',
+                'read': false
+            }
+        ] %}
+
+        <div class="sent-messages">
+            {% for msg in sentMessages %}
+            <div class="sent-message">
+                <h4>{{ msg.title }} <small>(an {{ msg.to }})</small></h4>
+                <p>{{ msg.message }}</p>
+                <p><strong>Priorität:</strong> {{ msg.priority }}</p>
+                <p><strong>Status:</strong> {% if msg.read %}Gelesen{% else %}Ungelesen{% endif %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}
