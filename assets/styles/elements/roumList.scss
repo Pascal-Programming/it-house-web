@@ -1,0 +1,82 @@
+// Farben je nach Status
+$status-colors: (
+        'aktiv': #27ae60,
+        'offline': #171717,
+        'warnung': #e67e22
+);
+
+$room-list-row-color: #b6b6b6;
+
+.room-list {
+  margin: 2rem 0;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .room-list-table {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    .room-list-header,
+    .room-list-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      padding: 0.75rem 1rem;
+      align-items: center;
+
+      span {
+        font-size: 0.95rem;
+      }
+    }
+
+    .room-list-header {
+      background: #f9f9f9;
+      font-weight: 600;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .room-list-row {
+      border-bottom: 1px solid #eee;
+      background-color: $room-list-row-color;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: #f5faff;
+      }
+
+      .light.on {
+        color: #0cef17;
+        font-weight: bold;
+      }
+
+      .light.off {
+        color: #050505;
+      }
+
+      .details-link {
+        text-decoration: none;
+        color: $primary-color;
+        font-weight: 500;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      @each $key, $color in $status-colors {
+        .status-#{$key} {
+          color: $color;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
